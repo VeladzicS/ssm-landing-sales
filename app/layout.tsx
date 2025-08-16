@@ -1,21 +1,22 @@
 import type { Metadata } from "next";
 import { Playfair_Display, Montserrat } from "next/font/google";
 import "./globals.css";
-
+import Header from "@/components/layout/header";
+import { LazyMotion, domAnimation } from "framer-motion";
 const playfairDisplay = Playfair_Display({
   variable: "--font-playfair_display",
   subsets: ["latin"],
-    weight: ["700", "900"],
-    preload: true,
-    display: "swap",
+  weight: ["700", "900"],
+  preload: true,
+  display: "swap",
 });
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
   subsets: ["latin"],
-    weight: ["300", "400", "500"],
-    preload: true,
-    display: "swap",
+  weight: ["300", "400", "500"],
+  preload: true,
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -33,7 +34,10 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} ${playfairDisplay.variable} antialiased`}
       >
-        {children}
+        <LazyMotion features={domAnimation}>
+          <Header />
+          {children}
+        </LazyMotion>
       </body>
     </html>
   );
