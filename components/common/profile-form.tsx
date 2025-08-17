@@ -51,7 +51,7 @@ export default function ProfileForm({
   } = form;
 
   const onSubmit = async (formData: TContactFormSchema) => {
-    console.log(FormData);
+    console.log(formData);
   };
 
   return (
