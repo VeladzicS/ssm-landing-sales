@@ -9,11 +9,13 @@ const salespeopleData = {
     fullName: "Danny Sanchez",
     title: "Senior Sales Executive",
     profileImage: "/profiles/profile-team.jpg",
-    bio: "Results-driven sales professional with over 8 years of experience helping businesses scale their operations. Specialized in B2B software solutions and enterprise client relationships. ",
+    bio: "Results-driven sales professional with over 8 years of experience helping businesses scale their operations. Specialized in B2B software solutions and enterprise client relationships.",
     bio_long:
       "Results-driven sales professional with over 8 years of experience helping businesses scale their operations. Specialized in B2B software solutions and enterprise client relationships.There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc. ",
     phone: "+1 (555) 123-4567",
+    phoneLink: "tel:555123458",
     email: "danny.sanchez@company.com",
+    mailLink: "mailto:danny.sanchez@company.com",
     location: "New York, NY",
     socialLinks: {
       linkedin: "https://linkedin.com/in/danny-sanchez",

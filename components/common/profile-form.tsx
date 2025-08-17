@@ -63,9 +63,7 @@ export default function ProfileForm({
           className,
         )}
       >
-        <p className="text-clamp-md mb-5 font-semibold text-[#131c26]">
-          {formTitle}
-        </p>
+        <p className="text-clamp-md font-heading text-main mb-5">{formTitle}</p>
 
         <FormField
           control={form.control}
