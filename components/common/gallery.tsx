@@ -1,141 +1,175 @@
 "use client";
-import React, { useState } from "react";
-import {
-  DraggableCardBody,
-  DraggableCardContainer,
-} from "@/components/ui/draggable-card";
-import Image from "next/image";
-import { AuroraBackground } from "@/components/ui/aurora-background";
+import { useLazyPhotoSwipe } from "@/hooks/use-lazy-photo-swipe";
+import { GalleryItem } from "@/components/common/gallery-item";
+import { FaArrowRight } from "react-icons/fa6";
+
+// Reordered images with portrait first
+const galleryImages = [
+  {
+    id: 1,
+    src: "/gallery/Barrow.jpg",
+    width: 1200,
+    height: 788,
+    alt: "Barrow",
+  },
+  {
+    id: 2,
+    src: "/gallery/Bitz.jpg",
+    width: 1200,
+    height: 788,
+    alt: "Bitz",
+  },
+  {
+    id: 3,
+    src: "/gallery/Bitz2.jpg",
+    width: 1200,
+    height: 788,
+    alt: "Bitz 2",
+  },
+  {
+    id: 4,
+    src: "/gallery/Cashin Brussels Kennel.jpg",
+    width: 1200,
+    height: 782,
+    alt: "Cashin Brussels Kennel",
+  },
+  {
+    id: 5,
+    src: "/gallery/Cashin Schnauzer.jpg",
+    width: 1200,
+    height: 788,
+    alt: "Cashin Schnauzer",
+  },
+  {
+    id: 7,
+    src: "/gallery/Frischmann Book.jpg",
+    width: 1200,
+    height: 1564,
+    alt: "Frischmann Book",
+  },
+  {
+    id: 6,
+    src: "/gallery/Fleischaker.jpg",
+    width: 1200,
+    height: 788,
+    alt: "Fleischaker",
+  },
+];
 
 export default function Gallery() {
-  const [imageDimensions, setImageDimensions] = useState<{
-    [key: string]: { width: number; height: number };
-  }>({});
-
-  const handleImageLoad = (
-    imageSrc: string,
-    event: React.SyntheticEvent<HTMLImageElement>,
-  ) => {
-    const img = event.currentTarget;
-    const aspectRatio = img.naturalWidth / img.naturalHeight;
-
-    // Define max dimensions based on screen size
-    const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
-    const maxWidth = isMobile ? 200 : 320; // Smaller on mobile
-    const maxHeight = isMobile ? 250 : 400; // Smaller on mobile
-
-    let width, height;
-
-    if (aspectRatio > 1) {
-      // Landscape: fit to width
-      width = maxWidth;
-      height = maxWidth / aspectRatio;
-    } else {
-      // Portrait: fit to height
-      height = maxHeight;
-      width = maxHeight * aspectRatio;
-    }
-
-    setImageDimensions((prev) => ({
-      ...prev,
-      [imageSrc]: { width, height },
-    }));
-  };
-
-  const items = [
+  const {
+    ref: mainRef,
+    GalleryComponent,
+    ItemComponent,
+    isLoaded,
+  } = useLazyPhotoSwipe();
+  const gridConfig = [
     {
-      title: "Barrow",
-      image: "/gallery/Barrow.jpg",
-      className:
-        "absolute top-16 left-[10%] md:top-61 md:left-[20%] rotate-[-5deg]",
+      grid: "col-span-12 row-span-2 xl:col-span-8 bg-red",
+      item: "h-[280px] rounded-tl-3xl sm:h-[400px] lg:h-[500px] xl:h-[580px]",
+      arrow: true,
     },
     {
-      title: "Bitz",
-      image: "/gallery/Bitz.jpg",
-      className:
-        "absolute top-32 left-[5%] md:top-54 md:left-[25%] rotate-[-7deg]",
+      grid: "col-span-6 row-span-1 xl:col-span-2",
+      item: "h-[190px] xl:h-full",
+      arrow: false,
     },
     {
-      title: "Bitz 2",
-      image: "/gallery/Bitz2.jpg",
-      className:
-        "absolute top-48 left-[15%] md:top-70 md:left-[40%] rotate-[8deg]",
+      grid: "col-span-6 row-span-1 xl:col-span-2",
+      item: "h-[190px] xl:h-full",
+      arrow: false,
     },
     {
-      title: "Cashin Brussels Kennel",
-      image: "/gallery/Cashin Brussels Kennel.jpg",
-      className:
-        "absolute top-64 left-[25%] md:top-47 md:left-[55%] rotate-[10deg]",
+      grid: "col-span-6 row-span-1 xl:col-span-2",
+      item: "h-[190px] xl:h-full",
+      arrow: false,
     },
     {
-      title: "Cashin Schnauzer",
-      image: "/gallery/Cashin Schnauzer.jpg",
-      className:
-        "absolute top-80 right-[15%] md:top-65 md:right-[35%] rotate-[2deg]",
-    },
-    {
-      title: "Fleischaker",
-      image: "/gallery/Fleischaker.jpg",
-      className:
-        "absolute top-96 left-[10%] md:top-55 md:left-[45%] rotate-[-7deg]",
-    },
-    {
-      title: "Frischmann Book",
-      image: "/gallery/Frischmann Book.jpg",
-      className:
-        "absolute top-112 left-[20%] md:top-50 md:left-[30%] rotate-[4deg]",
+      grid: "col-span-6 row-span-1 xl:col-span-2",
+      item: "h-[190px] xl:h-full",
+      arrow: false,
     },
   ];
-
   return (
-    <AuroraBackground>
-      <DraggableCardContainer className="relative flex min-h-screen w-full items-center justify-center overflow-clip [perspective:1500px] md:[perspective:3000px]">
-        <h2 className="text-clamp-md text-main absolute top-[30px] left-1/2 -translate-x-1/2 text-center text-3xl font-semibold lg:top-[60px]">
-          Ad showcase
-        </h2>
-        <div className="absolute top-1/2 mx-auto max-w-xs -translate-y-3/4 px-4 md:max-w-sm">
-          <h2 className="text-main pb-4 text-center text-4xl">
-            Advertise With Showsight Magazine
-          </h2>
-          <h3 className="text-mainAlt text-center text-xl">
-            A Leading Purebred Dog Monthly Print Publication And Media Channel
-          </h3>
-        </div>
-        {items.map((item, index) => {
-          const dimensions = imageDimensions[item.image];
-          const cardStyle = dimensions
-            ? {
-                width: dimensions.width + 32,
-                minHeight: dimensions.height + 60,
-              } // Reduced padding for mobile
-            : {};
+    <div
+      className="container mx-auto bg-gray-50 py-[30px] lg:py-[60px]"
+      ref={mainRef}
+    >
+      <h2 className="text-clamp-md text-main mb-8 text-center text-3xl">
+        Gallery
+      </h2>
+      {isLoaded ? (
+        <GalleryComponent
+          withCaption
+          options={{
+            showHideAnimationType: "zoom",
+            bgOpacity: 0.9,
+            spacing: 0.1,
+            allowPanToNext: false,
+            loop: true,
+            pinchToClose: true,
+            closeOnVerticalDrag: true,
+          }}
+        >
+          <div className="gallery-grid grid grid-cols-12 gap-[12.5px] lg:gap-[20px] xl:grid-rows-2">
+            {gridConfig.map((config, index) => {
+              const image = galleryImages[index];
+              return (
+                <div key={index} className={config.grid}>
+                  <ItemComponent
+                    original={image.src}
+                    thumbnail={image.src}
+                    width={image.width}
+                    height={image.height}
+                    alt={image.alt}
+                  >
+                    {({ ref, open }: { ref: any; open: any }) => (
+                      <GalleryItem
+                        ref={ref}
+                        src={image.src}
+                        alt={image.alt}
+                        className={config.item}
+                        showArrow={config.arrow}
+                        arrowIcon={config.arrow ? <FaArrowRight /> : undefined}
+                        onClick={open}
+                      />
+                    )}
+                  </ItemComponent>
+                </div>
+              );
+            })}
 
-          return (
-            <DraggableCardBody
-              key={index}
-              className={item.className}
-              style={cardStyle}
-            >
-              <Image
-                width={900}
-                height={450}
-                src={item.image}
-                alt={item.title}
-                onLoad={(e) => handleImageLoad(item.image, e)}
-                style={
-                  dimensions
-                    ? { width: dimensions.width, height: dimensions.height }
-                    : { width: 200, height: 200 }
-                }
-                className="pointer-events-none relative z-10 rounded object-cover"
+            {/* Hidden images for navigation */}
+            {galleryImages.slice(5).map((image, index) => (
+              <div key={`hidden-${index}`} className="hidden">
+                <ItemComponent
+                  original={image.src}
+                  thumbnail={image.src}
+                  width={image.width}
+                  height={image.height}
+                  alt={image.alt}
+                >
+                  {({ ref, open }: { ref: any; open: any }) => (
+                    <div ref={ref} onClick={open} />
+                  )}
+                </ItemComponent>
+              </div>
+            ))}
+          </div>
+        </GalleryComponent>
+      ) : (
+        <div className="gallery-grid grid grid-cols-12 grid-rows-4 gap-[12.5px] lg:gap-[20px] xl:grid-rows-2">
+          {gridConfig.map((config, index) => (
+            <div key={index} className={config.grid}>
+              <GalleryItem
+                isPlaceholder
+                className={config.item}
+                showArrow={config.arrow}
               />
-              <h3 className="mt-2 text-center text-sm font-bold text-neutral-700 md:text-xl dark:text-neutral-300">
-                {item.title}
-              </h3>
-            </DraggableCardBody>
-          );
-        })}
-      </DraggableCardContainer>
-    </AuroraBackground>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
   );
 }
