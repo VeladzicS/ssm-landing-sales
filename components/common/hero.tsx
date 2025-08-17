@@ -44,22 +44,26 @@ export default function Hero() {
               {person.phone && (
                 <a
                   href={person.phoneLink}
-                  className="relative z-20 flex items-center gap-2 pb-2"
+                  className="group relative z-20 flex items-center gap-2 pb-2"
                   rel="noopener noreferrer"
                 >
                   <FaPhone className="hover:text-accent size-4 cursor-pointer text-white transition-colors" />
-                  <span className="text-white underline">{person.phone}</span>
+                  <span className="group-hover:text-mainAlt text-white underline transition-colors">
+                    {person.phone}
+                  </span>
                 </a>
               )}
 
               {person.email && (
                 <a
                   href={person.mailLink}
-                  className="relative z-20 flex items-center gap-2"
+                  className="group relative z-20 flex items-center gap-2"
                   rel="noopener noreferrer"
                 >
-                  <FaEnvelope className="hover:text-accent size-4 cursor-pointer text-white transition-colors" />
-                  <span className="text-white underline">{person.email}</span>
+                  <FaEnvelope className="hover:text-mainAlt size-4 cursor-pointer text-white transition-colors" />
+                  <span className="group-hover:text-mainAlt text-white underline transition-colors">
+                    {person.email}
+                  </span>
                 </a>
               )}
             </div>
@@ -72,7 +76,7 @@ export default function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <FaLinkedin className="hover:text-accent size-8 cursor-pointer text-white transition-colors" />
+                  <FaLinkedin className="hover:text-mainAlt size-8 cursor-pointer text-white transition-colors" />
                 </a>
               )}
               {person.socialLinks.facebook && (
@@ -82,7 +86,7 @@ export default function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <FaFacebook className="hover:text-accent size-8 cursor-pointer text-white transition-colors" />
+                  <FaFacebook className="hover:text-mainAlt size-8 cursor-pointer text-white transition-colors" />
                 </a>
               )}
               {person.socialLinks.instagram && (
@@ -92,7 +96,7 @@ export default function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <FaInstagram className="hover:text-accent size-8 cursor-pointer text-white transition-colors" />
+                  <FaInstagram className="hover:text-mainAlt size-8 cursor-pointer text-white transition-colors" />
                 </a>
               )}
             </div>
