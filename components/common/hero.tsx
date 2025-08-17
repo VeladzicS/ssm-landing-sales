@@ -1,4 +1,3 @@
-import { Boxes } from "@/components/ui/background-boxes";
 import Image from "next/image";
 import {
   FaLinkedin,
@@ -15,7 +14,6 @@ export default function Hero() {
   return (
     <div className="bg-main relative flex w-full flex-col items-center justify-center overflow-hidden">
       <div className="bg-main pointer-events-none absolute inset-0 z-20 h-full w-full [mask-image:radial-gradient(transparent,white)]" />
-      <Boxes />
       <div className="container">
         <div className="flex flex-col items-center justify-between gap-6 px-4 pt-[120px] pb-[60px] lg:flex-row lg:pb-[120px]">
           <div className="border-mainAlt relative z-20 h-[200px] w-[200px] min-w-[200px] overflow-hidden rounded-full border-4">
@@ -42,11 +40,11 @@ export default function Hero() {
             <p className="relative z-20 leading-relaxed text-white lg:text-lg">
               {person.bio}
             </p>
-            <div>
+            <div className="flex flex-col items-start">
               {person.phone && (
                 <a
                   href={person.phoneLink}
-                  className="relative z-20 block flex items-center gap-2 pb-2"
+                  className="relative z-20 flex items-center gap-2 pb-2"
                   rel="noopener noreferrer"
                 >
                   <FaPhone className="hover:text-accent size-4 cursor-pointer text-white transition-colors" />
@@ -57,7 +55,7 @@ export default function Hero() {
               {person.email && (
                 <a
                   href={person.mailLink}
-                  className="relative z-20 block flex items-center gap-2"
+                  className="relative z-20 flex items-center gap-2"
                   rel="noopener noreferrer"
                 >
                   <FaEnvelope className="hover:text-accent size-4 cursor-pointer text-white transition-colors" />
