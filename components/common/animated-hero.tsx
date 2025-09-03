@@ -1,4 +1,6 @@
+"use client";
 import Image from "next/image";
+import { useState, useEffect, lazy, Suspense } from "react";
 import {
   FaEnvelope,
   FaFacebook,
@@ -8,11 +10,70 @@ import {
 } from "react-icons/fa6";
 import { currentSalesperson } from "@/lib/data";
 
+// Dynamically import Boxes component
+const Boxes = lazy(() =>
+  import("@/components/ui/background-boxes").then((module) => ({
+    default: module.Boxes,
+  })),
+);
+
 export default function Hero() {
   const person = currentSalesperson;
+  const [showBoxes, setShowBoxes] = useState(false);
+  const [hasInteracted, setHasInteracted] = useState(false);
+
+  useEffect(() => {
+    if (hasInteracted) return;
+
+    const handleInteraction = () => {
+      if (!hasInteracted) {
+        setHasInteracted(true);
+        setShowBoxes(true);
+      }
+    };
+
+    const handleScroll = () => {
+      if (!hasInteracted && window.scrollY > 50) {
+        handleInteraction();
+      }
+    };
+
+    // Add event listeners
+    const heroSection = document.getElementById("hero-section");
+
+    if (heroSection) {
+      heroSection.addEventListener("mouseenter", handleInteraction);
+      heroSection.addEventListener("touchstart", handleInteraction, {
+        passive: true,
+      });
+    }
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+
+    // Cleanup
+    return () => {
+      if (heroSection) {
+        heroSection.removeEventListener("mouseenter", handleInteraction);
+        heroSection.removeEventListener("touchstart", handleInteraction);
+      }
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [hasInteracted]);
+
   return (
-    <div className="bg-main relative flex w-full flex-col items-center justify-center overflow-hidden">
+    <div
+      id="hero-section"
+      className="bg-main relative flex w-full flex-col items-center justify-center overflow-hidden"
+    >
       <div className="bg-main pointer-events-none absolute inset-0 z-20 h-full w-full [mask-image:radial-gradient(transparent,white)]" />
+
+      {/* Conditionally render Boxes with Suspense */}
+      {showBoxes && (
+        <Suspense fallback={null}>
+          <Boxes />
+        </Suspense>
+      )}
+
       <div className="container">
         <div className="flex flex-col items-center justify-between gap-6 px-4 pt-[120px] pb-[60px] lg:flex-row lg:pb-[120px]">
           <div className="border-mainAlt relative z-20 h-[200px] w-[200px] min-w-[200px] overflow-hidden rounded-full border-4">
