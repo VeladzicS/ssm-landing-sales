@@ -1,16 +1,15 @@
 import Image from "next/image";
 import {
-  FaLinkedin,
+  FaEnvelope,
   FaFacebook,
   FaInstagram,
+  FaLinkedin,
   FaPhone,
-  FaEnvelope,
 } from "react-icons/fa6";
 import { currentSalesperson } from "@/lib/data";
 
 export default function Hero() {
   const person = currentSalesperson;
-
   return (
     <div className="bg-main relative flex w-full flex-col items-center justify-center overflow-hidden">
       <div className="bg-main pointer-events-none absolute inset-0 z-20 h-full w-full [mask-image:radial-gradient(transparent,white)]" />

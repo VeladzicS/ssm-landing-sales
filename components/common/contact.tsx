@@ -1,7 +1,47 @@
+"use client";
 import { currentSalesperson } from "@/lib/data";
-
+import { useEffect } from "react";
+declare global {
+  interface Window {
+    jotformEmbedHandler?: (selector: string, baseUrl: string) => void;
+  }
+}
 export default function Contact() {
   const person = currentSalesperson;
+
+  useEffect(() => {
+    // Load JotForm embed handler script
+    const script = document.createElement("script");
+    script.src = "https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js";
+    script.async = true;
+
+    script.onload = () => {
+      // Initialize JotForm embed handler after script loads
+      if (window.jotformEmbedHandler) {
+        window.jotformEmbedHandler(
+          "iframe[id='JotFormIFrame-252434879367067']",
+          "https://form.jotform.com/",
+        );
+      }
+    };
+
+    document.head.appendChild(script);
+
+    // Cleanup function to remove script when component unmounts
+    return () => {
+      if (document.head.contains(script)) {
+        document.head.removeChild(script);
+      }
+    };
+  }, []);
+
+  const handleIframeLoad = () => {
+    // Scroll to top when iframe loads
+    if (typeof window !== "undefined") {
+      window.scrollTo(0, 0);
+    }
+  };
+
   return (
     <section className="container mx-auto">
       <div className="px-4 py-[30px] lg:py-[60px]">
@@ -14,15 +54,13 @@ export default function Contact() {
               We are always excited to explore new opportunities and collaborate
               with innovative partners. {person.firstName} is dedicated to
               fostering mutually beneficial relationships that drive growth and
-              success for all parties involved. If you share our vision and
-              enthusiasm, we’d love to hear from you!
+              success for all parties involved.
             </p>
           </div>
           <div className="flex-1">
             <iframe
               id="JotFormIFrame-252434879367067"
-              onLoad="window.parent.scrollTo(0,0)"
-              allowTransparency="true" // Promjena: lowercase umjesto camelCase
+              onLoad={handleIframeLoad}
               allow="geolocation; microphone; camera; fullscreen; payment"
               src="https://form.jotform.com/252434879367067"
               frameBorder="0"
@@ -31,14 +69,9 @@ export default function Contact() {
                 maxWidth: "100%",
                 height: "539px",
                 border: "none",
-              }} // Promjena: style objekt umjesto string
+              }}
               scrolling="no"
-            ></iframe>
-            <script src="https://cdn.jotfor.ms/s/umd/latest/for-form-embed-handler.js"></script>
-            <script>
-              {`window.jotformEmbedHandler("iframe[id='JotFormIFrame-252434879367067']",
-        "https://form.jotform.com/")`}
-            </script>
+            />
           </div>
         </div>
       </div>
