@@ -1,14 +1,18 @@
 "use client";
 import { currentSalesperson } from "@/lib/data";
 import { useEffect } from "react";
+import useLazyLoad from "@/hooks/use-lazy-load";
+
+// Extend Window interface to include JotForm handler
 declare global {
   interface Window {
     jotformEmbedHandler?: (selector: string, baseUrl: string) => void;
   }
 }
+
 export default function Contact() {
   const person = currentSalesperson;
-
+  const { ref, isInView } = useLazyLoad();
   useEffect(() => {
     // Load JotForm embed handler script
     const script = document.createElement("script");
@@ -35,15 +39,8 @@ export default function Contact() {
     };
   }, []);
 
-  const handleIframeLoad = () => {
-    // Scroll to top when iframe loads
-    if (typeof window !== "undefined") {
-      window.scrollTo(0, 0);
-    }
-  };
-
   return (
-    <section className="container mx-auto">
+    <section className="container mx-auto" ref={ref}>
       <div className="px-4 py-[30px] lg:py-[60px]">
         <div className="mx-auto flex flex-col gap-8 md:flex-row md:gap-20">
           <div className="flex flex-1 flex-col gap-3 leading-7 text-[#5a5a67]">
@@ -58,20 +55,40 @@ export default function Contact() {
             </p>
           </div>
           <div className="flex-1">
-            <iframe
-              id="JotFormIFrame-252434879367067"
-              onLoad={handleIframeLoad}
-              allow="geolocation; microphone; camera; fullscreen; payment"
-              src="https://form.jotform.com/252434879367067"
-              frameBorder="0"
-              style={{
-                minWidth: "100%",
-                maxWidth: "100%",
-                height: "539px",
-                border: "none",
-              }}
-              scrolling="no"
-            />
+            {isInView ? (
+              <iframe
+                id="JotFormIFrame-252434879367067"
+                allow="geolocation; microphone; camera; fullscreen; payment"
+                src="https://form.jotform.com/252434879367067"
+                frameBorder="0"
+                style={{
+                  minWidth: "100%",
+                  maxWidth: "100%",
+                  height: "539px",
+                  border: "none",
+                }}
+                scrolling="no"
+              />
+            ) : (
+              <div
+                style={{
+                  minWidth: "100%",
+                  maxWidth: "100%",
+                  height: "539px",
+                  border: "1px solid #e5e5e5",
+                  borderRadius: "4px",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#f9f9f9",
+                  color: "#666",
+                }}
+              >
+                <div className="text-center">
+                  <div className="animate-pulse">Loading contact form...</div>
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>
